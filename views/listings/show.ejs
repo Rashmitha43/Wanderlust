@@ -1,0 +1,129 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<script>
+    const mapToken = "<%= process.env.MAP_TOKEN %>";
+    const listing = <%- JSON.stringify(listing) %>;
+</script>
+
+<style>
+    .show-card {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    .show-img {
+        height: 400px;
+        object-fit: cover;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+    .btns {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .review-card {
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+    }
+    #map {
+        height: 300px;
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+</style>
+
+<body>
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold"><%= listing.title %></h2>
+        </div>
+
+        <div class="card show-card mx-auto col-lg-8">
+            <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing image">
+            <div class="card-body">
+                <!-- <p class="card-text"><strong>Owned by:</strong> <i><%= listing.owner.username %></i></p> -->
+                 <p class="card-text">
+  <strong>Owned by:</strong>
+  <i><%= listing.owner?.username || "Unknown" %></i>
+</p>
+                <p class="card-text"><%= listing.description %></p>
+                <p class="card-text text-success fw-bold">&#8377; <%= listing.price.toLocaleString("en-IN") %></p>
+                <p class="card-text"><i class="bi bi-geo-alt-fill"></i> <%= listing.location %>, <%= listing.country %></p>
+                <p class="card-text"><strong>Category:</strong> <%= listing.category %></p>
+            </div>
+        </div>
+
+        <div class="btns">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-primary">Edit</a>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                <button class="btn btn-outline-danger">Delete</button>
+            </form>
+        </div>
+
+        <% if (currUser) { %>
+            <div class="mt-5 col-lg-8 mx-auto">
+                <hr>
+                <h4 class="mb-3">Leave a Review</h4>
+                <form method="POST" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating</label>
+                        <fieldset class="starability-slot">
+                            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked />
+                            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comments</label>
+                        <textarea class="form-control" name="review[comment]" id="comment" rows="4" placeholder="Write your feedback..." required></textarea>
+                        <div class="invalid-feedback">
+                            Please submit some comments for the review.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Submit Review</button>
+                </form>
+            </div>
+        <% } %>
+
+        <% if (listing.reviews.length > 0) { %>
+            <div class="col-lg-8 mx-auto mt-5">
+                <hr>
+                <h4 class="mb-4">All Reviews</h4>
+                <div class="row">
+                    <% for (review of listing.reviews) { %>
+                        <div class="card review-card col-md-5 m-3 p-3">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">@<%= review.author.username %></h5>
+                                <p class="card-text"><%= review.comment %></p>
+                                <p class="starability-result card-text" data-rating="<%= review.rating %>">Rated: <%= review.rating %> stars</p>
+                            </div>
+                            <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                <button class="btn btn-sm btn-outline-danger mb-2">Delete</button>
+                            </form>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <hr>
+        <% } %>
+
+        <div class="col-lg-8 mx-auto mt-5 mb-5">
+            <h4>Where you'll be</h4><br>
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script src="/js/map.js"></script>
+</body>

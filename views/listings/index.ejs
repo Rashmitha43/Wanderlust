@@ -1,0 +1,192 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<style>
+  .filters {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin-top: 2rem;
+}
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.filters::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.filters {
+  scrollbar-width: none;
+}
+
+.filter{
+  opacity:0.7;
+}
+
+  .filter:hover{
+    opacity:1;
+    cursor:pointer;
+  }
+
+   .tax-toggle .form-check {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  transition: 0.3s ease;
+  min-width: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+
+.tax-toggle .form-check:hover {
+  background-color: #eef6ff;
+  border-color: #007bff;
+}
+
+.form-check-input {
+  width: 2.5em;
+  height: 1.25em;
+}
+
+.form-check-input:checked {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.form-check-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+</style>
+
+<body>
+  <!-- <h1 class="text-center my-4">All Listings</h1> -->
+ <div class="d-flex justify-content-between align-items-center filters no-scrollbar">
+  <a href="/listings?category=Trending" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Rooms" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-door-open"></i></div>
+      <p>Rooms</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Iconic cities" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-city"></i></div>
+      <p>Iconic cities</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Mountains" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-mountain"></i></div>
+      <p>Mountains</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Castles" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-chess-rook"></i></div>
+      <p>Castles</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Amazing Pools" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-water-ladder"></i></div>
+      <p>Amazing Pools</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Camping" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-campground"></i></div>
+      <p>Camping</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Farms" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-tractor"></i></div>
+      <p>Farms</p>
+    </div>
+  </a>
+
+  <a href="/listings?category=Arctic" class="text-decoration-none text-dark">
+    <div class="filter text-center mx-3">
+      <div><i class="fa-solid fa-igloo"></i></div>
+      <p>Arctic</p>
+    </div>
+  </a>
+
+  <div class="tax-toggle ms-3">
+  <div class="form-check form-switch">
+    <label class="form-check-label mb-0" for="flexSwitchCheckDefault">
+      Display total after taxes
+    </label>
+    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+  </div>
+</div>
+
+
+</div>
+
+ 
+ 
+ <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
+    <% for (let listing of allListings) { %>
+      <a href="/listings/<%=listing._id%>">
+         <div class="col">
+        <div class="card h-100 shadow-sm listing-card">
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image">
+          <div class="card-img-overlay">
+            
+          </div>
+          <div class="card-body">
+            <p class="card-text mb-0">
+              <strong><%= listing.title %></strong><br>
+              ₹<%= listing.price.toLocaleString("en-IN") %>/night
+              <span class="gst text-muted fw-semibold">&nbsp;&nbsp;+18% GST</span>
+
+            </p>
+          </div>
+        </div>
+      </div>
+      </a> 
+    <% } %>
+  </div>
+
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+
+  function toggleGSTDisplay(show) {
+    document.querySelectorAll(".gst").forEach(el => {
+      el.style.display = show ? "inline" : "none";
+    });
+  }
+
+  // On switch change
+  taxSwitch.addEventListener("change", () => {
+    toggleGSTDisplay(taxSwitch.checked);
+  });
+
+  // Initial check on page load (default: OFF)
+  toggleGSTDisplay(taxSwitch.checked);
+</script>
+
+
+
+
+
+
+</body>

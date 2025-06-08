@@ -1,0 +1,86 @@
+<style>
+  /* Mobile collapsed menu styling */
+  .mobile-nav {
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .mobile-nav .nav-link {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: background 0.2s ease-in-out;
+  }
+
+  .mobile-nav .nav-link:hover {
+    background-color: #e9ecef;
+    color: #000;
+  }
+
+  /* Optional: slightly larger text for mobile links */
+  @media (max-width: 768px) {
+    .mobile-nav .nav-link {
+      font-size: 1.05rem;
+    }
+  }
+</style>
+
+
+
+
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top py-2 shadow-sm">
+  <div class="container-fluid">
+
+    <!-- Left: Brand + Explore -->
+    <div class="d-flex align-items-center">
+      <a class="navbar-brand fs-4 me-2" href="/listings"><i class="fa-regular fa-compass"></i></a>
+      <a class="nav-link" href="/listings">Explore</a>
+    </div>
+
+    <!-- Toggler -->
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      
+      <!-- Centered Search Bar -->
+      <form class="d-flex mx-auto my-2 my-md-0" role="search" action="/listings/search" method="GET" style="max-width: 500px; width: 100%;">
+        <input class="form-control me-2 rounded-pill shadow-sm" type="search" name="q" placeholder="Search destinations..." aria-label="Search" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+        <button class="btn btn-outline-dark rounded-pill" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+
+      <!-- Desktop View: Right Side Links -->
+      <div class="navbar-nav ms-auto d-none d-md-flex">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        <% if (!currUser) { %>
+          <a class="nav-link active" href="/signup"><b>Sign Up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout">Log out</a>
+        <% } %>
+      </div>
+
+      <!-- Mobile View: Styled Dropdown -->
+      <div class="d-md-none mobile-nav">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        <% if (!currUser) { %>
+          <a class="nav-link active" href="/signup"><b>Sign Up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout">Log out</a>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+</nav>
