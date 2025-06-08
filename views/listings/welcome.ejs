@@ -1,0 +1,120 @@
+<% var bodyClass = "welcome-page"; %>
+<% layout("/layouts/boilerplate.ejs") %>
+
+<style>
+  .welcome-section {
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  background: url("https://images.pexels.com/photos/1268854/pexels-photo-1268854.jpeg?auto=compress&cs=tinysrgb&w=1920") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+}
+
+.welcome-section {
+  width: 100vw;
+  height: 100vh;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+  text-align: center;
+  margin: 0; /* no margin to avoid unwanted space */
+}
+
+
+.welcome-overlay {
+  background-color: rgba(0, 0, 0, 0.65); /* Slightly darker for better contrast */
+  padding: 3rem 4rem;
+  border-radius: 1.25rem;
+  max-width: 720px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  backdrop-filter: saturate(180%) blur(12px); /* subtle blur effect behind overlay */
+}
+
+.welcome-page .container {
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 auto !important;
+}
+
+
+.welcome-title {
+  font-size: 2rem; /* a bit bigger and bolder */
+  font-weight: 900;
+  margin-bottom: 1.25rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+
+.welcome-text {
+  font-size: 1.3rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+.explore-btn {
+  background-color: #ff385c;
+  color: white;
+  border: none;
+  padding: 0.9rem 2.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 2.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 14px rgba(255, 56, 92, 0.4);
+  text-decoration: none;
+  display: inline-block;
+  user-select: none;
+}
+
+.explore-btn:hover,
+.explore-btn:focus {
+  background-color: #e11d48;
+  box-shadow: 0 6px 20px rgba(225, 29, 72, 0.7);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .welcome-overlay {
+    padding: 2rem 2.5rem;
+    max-width: 90%;
+  }
+
+  .welcome-title {
+    font-size: 2.5rem;
+  }
+
+  .welcome-text {
+    font-size: 1.1rem;
+  }
+
+  .explore-btn {
+    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
+  }
+}
+
+</style>
+
+<section class="welcome-section">
+  <div class="welcome-overlay">
+    <h1 class="welcome-title">Welcome to Wanderlust</h1>
+    <p class="welcome-text">Find your next adventure with the perfect stay. Discover iconic places, cozy cabins, beachside views, and more.</p>
+    <a href="/listings" class="explore-btn">Explore Listings</a>
+  </div>
+</section>

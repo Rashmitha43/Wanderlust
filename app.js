@@ -46,9 +46,7 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 
 
-// app.get("/",(req,res)=>{
-//     res.send("Hi,I am root");
-// });
+
 
 const store=MongoStore.create({
     mongoUrl:dbUrl,
@@ -95,6 +93,12 @@ app.use((req,res,next)=>{
     res.locals.currUser=req.user;
     next();
 });
+
+
+app.get("/", (req, res) => {
+    res.render("listings/welcome.ejs", { bodyClass: "welcome-page" });
+});
+
 
 
 app.use("/listings",listingRouter);
